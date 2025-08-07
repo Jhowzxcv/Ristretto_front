@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class TheTask extends StatelessWidget{
-  const TheTask({super.key,required this.title,required this.deadline});
+import 'package:ristretto/models/itask.dart';
 
-  final String title;
-  final String deadline;
+class TheTask extends StatelessWidget{
+  const TheTask({super.key,required this.task});
+
+  final ITask task;
 
   @override
   Widget build(BuildContext context){
@@ -14,18 +15,23 @@ class TheTask extends StatelessWidget{
         Column(
           crossAxisAlignment:CrossAxisAlignment.start,
           children:[
-            Text(title),
             Text(
-              deadline,
+              task.title,
               style:TextStyle(
-                color:Colors.blueGrey[600],
-                fontSize:14,
+                fontSize:16,
+              ),
+            ),
+            Text(
+              task.deadline,
+              style:TextStyle(
+                color:Colors.blueGrey[800],
+                fontSize:12,
               ),
             ),
           ],
         ),
         Checkbox(
-          value:false,
+          value:task.isComplete,
           onChanged:null,
           shape:const CircleBorder(),
           side:const BorderSide(

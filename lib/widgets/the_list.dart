@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ristretto/models/itask.dart';
+
 import 'package:ristretto/widgets/the_task.dart';
+
+import 'package:ristretto/models/ilist.dart';
 
 class TheList extends StatelessWidget {
   const TheList({
     super.key,
-    required this.title,
-    required this.tasks,
-    required this.color,
-    required this.icon,
+    required this.list,
   });
 
-  final String title;
-  final List<ITask> tasks;
-  final Color color;
-  final IconData icon;
+  final IList list;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +18,7 @@ class TheList extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration:BoxDecoration(
         borderRadius:BorderRadius.circular(6),
-        color:color,
+        color:list.color,
       ),
       child: Column(
         spacing:12,
@@ -33,9 +29,9 @@ class TheList extends StatelessWidget {
               Row(
                 spacing:4,
                 children:[
-                  Icon(icon),
+                  Icon(list.icon),
                   Text(
-                    title,
+                    list.title,
                     style:TextStyle(
                       fontWeight:FontWeight.bold,
                       fontSize:18,
@@ -47,13 +43,10 @@ class TheList extends StatelessWidget {
             ],
           ),
           Column(
-            children:[
-              for(int x=0;x<tasks.length;x++)
-                TheTask(
-                  title:tasks[x].title,
-                  deadline:tasks[x].deadline,
-                )
-            ],
+            children:List.generate(
+              list.tasks.length,
+              (index)=>TheTask(task:list.tasks[index]),
+            ),
           ),
           Align(
             alignment:Alignment.center,
