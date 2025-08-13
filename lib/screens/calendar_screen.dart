@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
+import 'package:ristretto/widgets/todayTask.dart';
+
+import 'package:ristretto/models/itask.dart';
+
+import 'package:ristretto/mock.dart';
+
 class CalendarScreen extends StatelessWidget{
+  final List<ITask> todayTasks=[
+    list1.tasks[0],
+    list2.tasks[0],
+  ];
+
   @override
   Widget build(BuildContext context) {
     return
@@ -37,9 +48,27 @@ class CalendarScreen extends StatelessWidget{
           Expanded(
             child:Container(
               margin:const EdgeInsets.all(16),
+              padding:const EdgeInsets.all(8),
               decoration:BoxDecoration(
                 borderRadius:BorderRadius.circular(6),
                 border:BoxBorder.all(color:Colors.grey[400]!,width:2),
+              ),
+              child:Column(
+                crossAxisAlignment:CrossAxisAlignment.start,
+                children:[
+                  Text('9',style:TextStyle(
+                    fontSize:36,
+                  )),
+                  Expanded(
+                    child:
+                      ListView.separated(
+                        separatorBuilder:(context, index)=>SizedBox(height:8),
+                        itemCount:todayTasks.length,
+                        itemBuilder:(context,index)=>
+                          TodayTask(todayTasks[index]),
+                      ),
+                  ),
+                ],
               ),
             )
           ),
