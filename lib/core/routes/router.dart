@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:ristretto/screens/tasks_screen.dart';
-import 'package:ristretto/screens/calendar_screen.dart';
-import 'package:ristretto/screens/add_task_screen.dart';
-import 'package:ristretto/screens/timer_screen.dart';
-import 'package:ristretto/screens/user_screen.dart';
+import 'package:ristretto/core/themes/colors.dart';
+
+import 'package:ristretto/features/tasks/presentation/tasks_screen.dart';
+import 'package:ristretto/features/calendar/presentation/calendar_screen.dart';
+import 'package:ristretto/features/add_task/presentation/add_task_screen.dart';
+import 'package:ristretto/features/timer/presentation/timer_screen.dart';
+import 'package:ristretto/features/user/presentation/user_screen.dart';
 
 List<String>_routesMap=[
   '/tasks',
@@ -74,7 +76,7 @@ final GoRouter router=GoRouter(
         return Scaffold(
           body:SafeArea(child:child),
           bottomNavigationBar:BottomNavigationBar(
-            selectedItemColor:Colors.blue[500],
+            selectedItemColor:AppColors.primaryColor,
             type:BottomNavigationBarType.fixed,
             items:_navItems,
             currentIndex:_getIndexBasedOnLocation(state.matchedLocation),

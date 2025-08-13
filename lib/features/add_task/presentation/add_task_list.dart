@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ristretto/models/list_simple.dart';
 
-class TheListSimple extends StatelessWidget{
-  const TheListSimple(this.listSimple);
+import 'package:ristretto/core/models/ilist_skeleton.dart';
 
-  final ListSimple listSimple;
+class ListSkeleton extends StatelessWidget{
+  final IListSkeleton listSimple;
+
+  const ListSkeleton(
+    this.listSimple,
+    {
+      super.key,
+    }
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +35,7 @@ class TheListSimple extends StatelessWidget{
               alignment:Alignment.center,
               child: Text(
                 listSimple.title,
-                style:TextStyle(
-                  fontSize:20,
-                  fontWeight:FontWeight.bold,
-                ),
+                style:Theme.of(context).textTheme.titleMedium,
               ),
             ),
           ],
