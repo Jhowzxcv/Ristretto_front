@@ -5,9 +5,15 @@ import 'package:ristretto/core/themes/colors.dart';
 
 import 'package:ristretto/features/tasks/presentation/tasks_screen.dart';
 import 'package:ristretto/features/calendar/presentation/calendar_screen.dart';
+
 import 'package:ristretto/features/add_task/presentation/add_task_screen.dart';
+import 'package:ristretto/features/add_list/presentation/add_list_screen.dart';
+
 import 'package:ristretto/features/timer/presentation/timer_screen.dart';
 import 'package:ristretto/features/user/presentation/user_screen.dart';
+
+import 'package:ristretto/features/login/presentation/login_screen.dart';
+import 'package:ristretto/features/register/presentation/register_screen.dart';
 
 List<String>_routesMap=[
   '/tasks',
@@ -57,6 +63,12 @@ final List<GoRoute> _routes=[
   GoRoute(
     path:'/add-task',
     builder:(context,state)=>AddTaskScreen(),
+    routes:[
+      GoRoute(
+        path:'add-list',
+        builder:(context,state)=>AddListScreen(),
+      ),
+    ],
   ),
   GoRoute(
     path:'/timer',
@@ -85,6 +97,14 @@ final GoRouter router=GoRouter(
         );
       },
       routes:_routes,
+    ),
+    GoRoute(
+      path:'/login',
+      builder:(context,state)=>LoginScreen(),
+    ),
+    GoRoute(
+      path:'/register',
+      builder:(context,state)=>RegisterScreen(),
     ),
   ],
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:ristretto/features/add_task/presentation/add_task_list.dart';
 
@@ -21,7 +22,7 @@ class AddTaskScreen extends StatelessWidget{
                 'Lista de Listas',
                 style:Theme.of(context).textTheme.headlineLarge,
               ),
-              Icon(Icons.add),
+              Icon(Icons.edit),
             ],
           ),
           Expanded(
@@ -30,8 +31,23 @@ class AddTaskScreen extends StatelessWidget{
               mainAxisSpacing:8,
               crossAxisSpacing:8,
               children:List.generate(
-                listsSkeleton.length,
-                (index)=>ListSkeleton(listsSkeleton[index]),
+                listsSkeleton.length+1,
+                (index)=>index!=listsSkeleton.length
+                  ?ListSkeleton(listsSkeleton[index])
+                  :GestureDetector(
+                    onTap:(){
+                      context.go('/add-task/add-list');
+                    },
+                    child: Container(
+                      color:Color(0xFFEEEEEE),
+                      child:Expanded(
+                        child: FractionallySizedBox(
+                          heightFactor:0.25,
+                          child:Icon(Icons.add,size:50),
+                        ),
+                      ),
+                    ),
+                  ),
               ),
             ),
           ),
