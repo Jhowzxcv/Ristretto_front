@@ -11,12 +11,13 @@ class AddListScreen extends StatefulWidget{
 enum ListType{normal,periodic}
 
 class _AddListScreenState extends State<AddListScreen> {
+  ListColor selectedListColor=ListColor.listColorA;
   ListType selectedListType=ListType.normal;
 
   @override
   Widget build(BuildContext context){
     return Padding(
-      padding:const EdgeInsets.all(16),
+      padding:const EdgeInsets.all(32),
       child: Column(
         children:[
           Text(
@@ -36,30 +37,34 @@ class _AddListScreenState extends State<AddListScreen> {
           Row(
             mainAxisSize:MainAxisSize.max,
             spacing:4,
-            children:List.generate(
-              listsColor.length,
-              (index)=>GestureDetector(
-                onTap:(){
-                  setState((){
-                    
-                  });
-                },
-                child: Expanded(
-                  flex:1,
+            children:ListColor.values.map(
+              (listColor)=>Expanded(
+                flex:1,
+                child: GestureDetector(
+                  onTap:(){
+                    setState((){
+                      selectedListColor=listColor;
+                    });
+                  },
                   child: AspectRatio(
                     aspectRatio:1,
                     child: Container(
                       decoration:BoxDecoration(
-                        color:listsColor[index],
+                        color:listColor.color,
                         borderRadius:BorderRadius.circular(4),
+                        border:BoxBorder.all(
+                          color:listColor==selectedListColor?darken(listColor.color,0.65):Colors.transparent,
+                          width:2.5,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
+            ).toList(),
           ),
           Row(
+            mainAxisAlignment:MainAxisAlignment.spaceBetween,
             children:[
               Row(
                 children:[
@@ -71,6 +76,7 @@ class _AddListScreenState extends State<AddListScreen> {
                         selectedListType=ListType.normal;
                       });
                     },
+                    materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
                   ),
                   Text('Padrão'),
                 ],
@@ -85,12 +91,15 @@ class _AddListScreenState extends State<AddListScreen> {
                         selectedListType=ListType.periodic;
                       });
                     },
+                    materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
                   ),
                   Text('Periódico'),
                 ],
               ),
             ],
           ),
+          if(selectedListType==ListType.normal) Text('hi')
+          else Text('bye')
         ],
       ),
     );

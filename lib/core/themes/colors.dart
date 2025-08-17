@@ -22,3 +22,24 @@ final List<Color> listsColor=[
   AppColors.listColorF,
   AppColors.listColorG,
 ];
+
+enum ListColor{
+  listColorA(AppColors.listColorA),
+  listColorB(AppColors.listColorB),
+  listColorC(AppColors.listColorC),
+  listColorD(AppColors.listColorD),
+  listColorE(AppColors.listColorE),
+  listColorF(AppColors.listColorF),
+  listColorG(AppColors.listColorG);
+
+  final Color color;
+  const ListColor(this.color);
+}
+
+Color darken(Color originalColor,double darkness_level){
+  HSLColor newColor=HSLColor
+    .fromColor(originalColor)
+    .withLightness(darkness_level);
+
+  return newColor.toColor();
+}
