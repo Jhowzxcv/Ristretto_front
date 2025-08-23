@@ -13,8 +13,9 @@ class TasksScreen extends StatelessWidget{
     return Padding(
       padding:const EdgeInsets.all(16),
       child: Column(
+        spacing:16,
         children:[
-          TasksTitle(totalTodayTasks:2),
+          TasksTitle(totalTodayTasks:todayTasks.length),
           Expanded(
             child:SingleChildScrollView(
               child:Column(

@@ -15,7 +15,7 @@ final List<ITasksList> theLists=[
       ITask(title:'Atividade de matemática',deadline:'Sexta-feira'),
       ITask(title:'Trabalho de história',deadline:'12/07'),
     ],
-    color:AppColors.listColorA,
+    color:AppColors.listColorC,
   ),
   ITasksList(
     title:'Pessoal',
@@ -33,7 +33,7 @@ final List<ITasksList> theLists=[
       ITask(title:'Peitos e triceps',deadline:'Segunda-feira',isComplete:true),
       ITask(title:'Quadríceps',deadline:'Terça-feira'),
     ],
-    color:AppColors.listColorC,
+    color:AppColors.listColorA,
   ),
 ];
 

@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
 final ThemeData lightTheme=ThemeData(
+  fontFamily:'Gabarito',
   colorScheme:ColorScheme.fromSeed(
     seedColor:AppColors.primaryColor,
   ),
   textTheme:const TextTheme(
-    displayLarge:TextStyle(
-      fontWeight:FontWeight.bold,
-      fontSize:40,
-    ),
     headlineLarge:TextStyle(
-      fontWeight:FontWeight.bold,
-      fontSize:26,
+      height:1,
+      fontWeight:FontWeight.w600,
+      fontSize:32,
     ),
-    titleMedium:TextStyle(
-      fontWeight:FontWeight.bold,
-      fontSize:18,
+    headlineMedium:TextStyle(
+      height:1,
+      fontWeight:FontWeight.w500,
+      fontSize:24,
     ),
-    bodyMedium:TextStyle(
-      fontSize:16,
-    ),
-    bodySmall:TextStyle(
-      fontSize:12,
-      color:AppColors.secondaryColor,
+    headlineSmall:TextStyle(
+      height:1,
+      fontWeight:FontWeight.w400,
+      fontSize:20,
     ),
   ),
 );

@@ -4,7 +4,7 @@ class AppColors{
   static const Color primaryColor=Color(0xFF679FFF);
   static const Color secondaryColor=Color(0xFF505050);
 
-  static const Color listColorA=Color(0xFFFF9B87);
+  static const Color listColorA=Color(0XFFFF9B87);
   static const Color listColorB=Color(0xFFFFE5C8);
   static const Color listColorC=Color(0xFFADDAD5);
   static const Color listColorD=Color(0xFFCCDEFD);

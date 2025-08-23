@@ -4,16 +4,16 @@ import 'package:ristretto/features/tasks/presentation/tasks_list_item.dart';
 
 import 'package:ristretto/core/models/itasks_list.dart';
 
-class TasksList extends StatefulWidget {
+class TasksList extends StatefulWidget{
   final ITasksList list;
 
   const TasksList(this.list,{super.key});
 
   @override
-  State<TasksList> createState() => _TasksListState();
+  State<TasksList> createState()=>_TasksListState();
 }
 
-class _TasksListState extends State<TasksList> {
+class _TasksListState extends State<TasksList>{
   @override
   Widget build(BuildContext context){
     return Container(
@@ -23,7 +23,7 @@ class _TasksListState extends State<TasksList> {
         color:widget.list.color,
       ),
       child: Column(
-        spacing:8,
+        spacing:16,
         children:[
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -34,15 +34,15 @@ class _TasksListState extends State<TasksList> {
                   Icon(widget.list.icon),
                   Text(
                     widget.list.title,
-                    style:Theme.of(context).textTheme.titleMedium,
+                    style:Theme.of(context).textTheme.headlineMedium,
                   ),
                 ],
               ),
-              Icon(Icons.arrow_drop_down),
+              Icon(Icons.keyboard_arrow_down_sharp),
             ],
           ),
           Column(
-            spacing:6,
+            spacing:12,
             children:List.generate(
               widget.list.tasks.length,
               (index)=>TasksListItem(

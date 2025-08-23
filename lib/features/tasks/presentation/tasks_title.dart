@@ -25,7 +25,7 @@ class TasksTitle extends StatelessWidget{
             Text.rich(
               TextSpan(
                 text:'$totalTodayTasks tarefas para ',
-                style:Theme.of(context).textTheme.bodyMedium,
+                style:Theme.of(context).textTheme.headlineSmall,
                 children:[
                   const TextSpan(
                     text:'hoje',
@@ -34,10 +34,11 @@ class TasksTitle extends StatelessWidget{
                 ],
               ),
             ),
-            IconButton(
-              onPressed:(){},
-              icon:Icon(Icons.swap_vert),
-            ),
+            Icon(Icons.swap_vert),
+            // IconButton(
+            //   onPressed:(){},
+            //   icon:Icon(Icons.swap_vert),
+            // ),
           ],
         ),
       ],

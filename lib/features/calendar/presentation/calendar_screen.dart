@@ -9,17 +9,17 @@ class CalendarScreen extends StatefulWidget{
   const CalendarScreen({super.key});
 
   @override
-  State<CalendarScreen> createState() => _CalendarScreenState();
+  State<CalendarScreen> createState()=>_CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarScreenState extends State<CalendarScreen>{
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return
       Padding(
         padding:const EdgeInsets.all(16),
         child: Column(
-          spacing:16,
+          // spacing:16,
           children:[
             Column(
               children:[
@@ -29,7 +29,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 Row(
                   mainAxisAlignment:MainAxisAlignment.center,
-                  spacing:4,
+                  // spacing:4,
                   children:[
                     Icon(
                       Icons.arrow_left,
@@ -37,7 +37,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     ),
                     Text(
                       'Hoje',
-                      style:TextStyle(
+                      style:Theme.of(context).textTheme.headlineSmall!.copyWith(
                         color:AppColors.primaryColor,
                       ),
                     ),
@@ -61,16 +61,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 child:Column(
                   crossAxisAlignment:CrossAxisAlignment.start,
-                  spacing:8,
+                  // spacing:8,
                   children:[
                     Text(
                       '9',
-                      style:Theme.of(context).textTheme.displayLarge,
+                      style:TextStyle(
+                        height:1,
+                        fontWeight:FontWeight.w400,
+                        fontSize:48,
+                      ),
                     ),
                     Expanded(
                       child:
                         ListView.separated(
-                          separatorBuilder:(context, index)=>SizedBox(height:8),
+                          separatorBuilder:(context,index)=>SizedBox(height:0),
                           itemCount:todayTasks.length,
                           itemBuilder:(context,index)=>
                             TodayTask(
@@ -82,6 +86,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               },
                             ),
                         ),
+                    ),
+                    Align(
+                      alignment:Alignment.center,
+                      child:Icon(Icons.add),
                     ),
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ristretto/core/commons/widgets/the_checkbox.dart';
 
 import 'package:ristretto/core/models/itask.dart';
+import 'package:ristretto/core/themes/colors.dart';
 
 class TasksListItem extends StatelessWidget{
   final ITask task;
@@ -12,6 +13,27 @@ class TasksListItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
+    // return IntrinsicHeight(
+    //   child: ListTile(
+    //     contentPadding:EdgeInsets.zero,
+    //     title:Text(
+    //       task.title,
+    //       style:Theme.of(context).textTheme.headlineSmall
+    //     ),
+    //     subtitle:Text(
+    //       task.deadline,
+    //       style:TextStyle(
+    //         fontWeight:FontWeight.w400,
+    //         fontSize:14,
+    //         color:AppColors.secondaryColor,
+    //       ),
+    //     ),
+    //     trailing:TheCheckbox(
+    //       isChecked:task.isComplete,
+    //       toggleState:toggleTaskState,
+    //     ),
+    //   ),
+    // );
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -21,16 +43,20 @@ class TasksListItem extends StatelessWidget{
             children:[
               Text(
                 task.title,
-                style:Theme.of(context).textTheme.bodyMedium,
+                style:Theme.of(context).textTheme.headlineSmall,
               ),
               Text(
                 task.deadline,
-                style:Theme.of(context).textTheme.bodySmall,
+                style:TextStyle(
+                  fontWeight:FontWeight.w400,
+                  fontSize:14,
+                  color:AppColors.secondaryColor,
+                ),
               ),
             ],
           ),
           TheCheckbox(
-            initialValue:task.isComplete,
+            isChecked:task.isComplete,
             toggleState:toggleTaskState,
           ),
         ],
