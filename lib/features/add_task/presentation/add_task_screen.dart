@@ -11,9 +11,9 @@ class AddTaskScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Padding(
-      padding:const EdgeInsets.all(16),
+      padding:const EdgeInsets.all(24),
       child: Column(
-        spacing:16,
+        spacing:30,
         children:[
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -28,23 +28,19 @@ class AddTaskScreen extends StatelessWidget{
           Expanded(
             child:GridView.count(
               crossAxisCount:2,
-              mainAxisSpacing:8,
-              crossAxisSpacing:8,
+              mainAxisSpacing:10,
+              crossAxisSpacing:10,
               children:List.generate(
                 listsSkeleton.length+1,
                 (index)=>index!=listsSkeleton.length
                   ?ListSkeleton(listsSkeleton[index])
                   :GestureDetector(
-                    onTap:(){
-                      context.go('/add-task/add-list');
-                    },
+                    onTap:()=>context.go('/add-task/add-list'),
                     child: Container(
                       color:Color(0xFFEEEEEE),
-                      child:Expanded(
-                        child: FractionallySizedBox(
-                          heightFactor:0.25,
-                          child:Icon(Icons.add,size:50),
-                        ),
+                      child: FractionallySizedBox(
+                        heightFactor:0.25,
+                        child:Icon(Icons.add,size:50),
                       ),
                     ),
                   ),

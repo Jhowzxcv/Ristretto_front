@@ -1,6 +1,6 @@
 class ITask{
   final String title;
-  final String deadline;
+  final DateTime deadline;
   bool isComplete;
 
   ITask({

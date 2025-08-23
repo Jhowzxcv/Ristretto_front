@@ -19,7 +19,7 @@ class TodayTask extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Container(
-      padding:const EdgeInsets.all(8),
+      padding:const EdgeInsets.all(10),
       decoration:BoxDecoration(
         color:task.color,
         borderRadius:BorderRadius.circular(8),

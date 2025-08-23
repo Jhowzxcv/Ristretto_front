@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:ristretto/core/commons/widgets/the_checkbox.dart';
 
+import 'package:ristretto/core/commons/utils/date.dart';
 import 'package:ristretto/core/models/itask.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
@@ -46,7 +47,7 @@ class TasksListItem extends StatelessWidget{
                 style:Theme.of(context).textTheme.headlineSmall,
               ),
               Text(
-                task.deadline,
+                formatDeadline(task.deadline),
                 style:TextStyle(
                   fontWeight:FontWeight.w400,
                   fontSize:14,

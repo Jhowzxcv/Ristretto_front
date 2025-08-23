@@ -18,7 +18,7 @@ class ListSkeleton extends StatelessWidget{
       Container(
         padding:const EdgeInsets.all(16),
         decoration:BoxDecoration(
-          borderRadius:BorderRadius.circular(6),
+          borderRadius:BorderRadius.circular(8),
           color:listSimple.color,
         ),
         child: Column(
@@ -35,7 +35,7 @@ class ListSkeleton extends StatelessWidget{
               alignment:Alignment.center,
               child: Text(
                 listSimple.title,
-                style:Theme.of(context).textTheme.titleMedium,
+                style:Theme.of(context).textTheme.headlineMedium,
               ),
             ),
           ],

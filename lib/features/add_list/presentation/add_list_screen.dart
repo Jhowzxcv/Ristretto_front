@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ristretto/core/commons/widgets/the_checkbox.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
 class AddListScreen extends StatefulWidget{
@@ -17,26 +18,37 @@ class _AddListScreenState extends State<AddListScreen> {
   @override
   Widget build(BuildContext context){
     return Padding(
-      padding:const EdgeInsets.all(32),
+      padding:const EdgeInsets.all(48),
       child: Column(
         children:[
           Text(
             'Nova Lista',
             style:Theme.of(context).textTheme.headlineLarge,
           ),
+          SizedBox(height:32),
           Container(
-            width:50,
-            height:50,
+            width:120,
+            height:120,
             decoration:BoxDecoration(
-              color:AppColors.listColorA,
+              color:selectedListColor.color,
               shape:BoxShape.circle,
             ),
             child:Icon(Icons.square),
           ),
-          TextField(),
+          SizedBox(height:32),
+          TextField(
+            textAlign:TextAlign.center,
+            style:Theme.of(context).textTheme.headlineMedium,
+            decoration:InputDecoration(
+              filled:true,
+              fillColor:selectedListColor.color,
+              hintText:'Nome da Lista',
+            ),
+          ),
+          SizedBox(height:24),
           Row(
             mainAxisSize:MainAxisSize.max,
-            spacing:4,
+            spacing:8,
             children:ListColor.values.map(
               (listColor)=>Expanded(
                 flex:1,
@@ -63,43 +75,103 @@ class _AddListScreenState extends State<AddListScreen> {
               ),
             ).toList(),
           ),
+          SizedBox(height:24),
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
             children:[
               Row(
+                spacing:8,
                 children:[
-                  Radio(
-                    value:ListType.normal,
-                    groupValue:selectedListType,
-                    onChanged:(value){
+                  TheCheckbox(
+                    toggleState:(){
                       setState((){
                         selectedListType=ListType.normal;
                       });
                     },
-                    materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
+                    isChecked:selectedListType==ListType.normal,
                   ),
-                  Text('Padrão'),
+                  Text('Padrão',style:Theme.of(context).textTheme.headlineMedium),
                 ],
               ),
               Row(
+                spacing:8,
                 children: [
-                  Radio(
-                    value:ListType.periodic,
-                    groupValue:selectedListType,
-                    onChanged:(value){
-                      setState(() {
+                  TheCheckbox(
+                    toggleState:(){
+                      setState((){
                         selectedListType=ListType.periodic;
                       });
                     },
-                    materialTapTargetSize:MaterialTapTargetSize.shrinkWrap,
+                    isChecked:selectedListType==ListType.periodic,
                   ),
-                  Text('Periódico'),
+                  Text('Periódico',style:Theme.of(context).textTheme.headlineMedium),
                 ],
               ),
             ],
           ),
-          if(selectedListType==ListType.normal) Text('hi')
-          else Text('bye')
+          SizedBox(height:28),
+          if(selectedListType==ListType.normal)
+            Container(
+              child:Column(
+                children:[
+                  Text(
+                    'Data para conclusão (opcional)',
+                    style:Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Row(
+                    children:[
+                      Column(
+                        children:[
+                          Text('dia'),
+                          Container(
+                            child:Text('dd'),
+                          ),
+                        ]
+                      ),
+                      Column(
+                        children:[
+                          Text('mês'),
+                          Container(
+                            child:Text('mm'),
+                          ),
+                        ]
+                      ),
+                      Column(
+                        children:[
+                          Text('ano'),
+                          Container(
+                            child:Text('aaaa'),
+                          ),
+                        ]
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          else
+            Container(
+              child:Column(
+                children:[
+                  Row(
+                    children:[
+                      Text('Repetir a cada'),
+                      // TextField(),
+                      // TextField(),
+                    ],
+                  ),
+                  Row(
+                    children:[
+                      TheCheckbox(
+                        isChecked:false,
+                        toggleState:(){},
+                      ),
+                      Text('Modo Repetição Automática'),
+                    ],
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );

@@ -6,34 +6,59 @@ import 'package:ristretto/core/models/itask.dart';
 import 'package:ristretto/core/models/ilist_skeleton.dart';
 import 'package:ristretto/core/models/gambiarra.dart';
 
+DateTime today=DateTime.now();
+
 final List<ITasksList> theLists=[
   ITasksList(
     title:'Escola',
+    color:AppColors.listColorC,
     icon:Icons.menu_book,
     tasks:[
-      ITask(title:'Atividade de português',deadline:'Hoje'),
-      ITask(title:'Atividade de matemática',deadline:'Sexta-feira'),
-      ITask(title:'Trabalho de história',deadline:'12/07'),
+      ITask(
+        title:'Atividade de português',
+        deadline:today,
+      ),
+      ITask(
+        title:'Atividade de matemática',
+        deadline:today.add(Duration(days:1)),
+      ),
+      ITask(
+        title:'Trabalho de história',
+        deadline:DateTime(2025,11,4),
+      ),
     ],
-    color:AppColors.listColorC,
   ),
   ITasksList(
     title:'Pessoal',
     icon:Icons.home,
-    tasks:[
-      ITask(title:'Compras da semana',deadline:'Hoje',isComplete:true),
-      ITask(title:'Aniversário da Maria',deadline:'Sexta-feira, 20h'),
-    ],
     color:AppColors.listColorB,
+    tasks:[
+      ITask(
+        title:'Compras da semana',
+        deadline:today,
+        isComplete:true,
+      ),
+      ITask(
+        title:'Aniversário da Maria',
+        deadline:today.add(Duration(days:3)),
+      ),
+    ],
   ),
   ITasksList(
     title:'Academia',
     icon:Icons.fitness_center,
-    tasks:[
-      ITask(title:'Peitos e triceps',deadline:'Segunda-feira',isComplete:true),
-      ITask(title:'Quadríceps',deadline:'Terça-feira'),
-    ],
     color:AppColors.listColorA,
+    tasks:[
+      ITask(
+        title:'Peitos e triceps',
+        deadline:today.add(Duration(days:4)),
+        isComplete:true,
+      ),
+      ITask(
+        title:'Quadríceps',
+        deadline:DateTime(2026,12,29),
+      ),
+    ],
   ),
 ];
 
@@ -46,7 +71,7 @@ List<Gambiarra> getTodayTasks(){
     for(int y=0;y<currentList.tasks.length;y++){
       ITask currentTask=currentList.tasks[y];
 
-      if(currentTask.deadline!='Hoje')continue;
+      if(currentTask.deadline!=today)continue;
 
       todayTasks.add(Gambiarra(
         title:currentTask.title,

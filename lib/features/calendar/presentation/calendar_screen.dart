@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:ristretto/core/commons/utils/date.dart';
 import 'package:ristretto/core/themes/colors.dart';
 import 'package:ristretto/features/calendar/presentation/calendar_task.dart';
 
 import 'package:ristretto/mock.dart';
+
+DateTime today=DateTime.now();
 
 class CalendarScreen extends StatefulWidget{
   const CalendarScreen({super.key});
@@ -19,17 +22,17 @@ class _CalendarScreenState extends State<CalendarScreen>{
       Padding(
         padding:const EdgeInsets.all(16),
         child: Column(
-          // spacing:16,
+          spacing:16,
           children:[
             Column(
+              spacing:10,
               children:[
                 Text(
-                  'Julho',
+                  months[today.month-1],
                   style:Theme.of(context).textTheme.headlineLarge,
                 ),
                 Row(
                   mainAxisAlignment:MainAxisAlignment.center,
-                  // spacing:4,
                   children:[
                     Icon(
                       Icons.arrow_left,
@@ -53,7 +56,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
               child:Container(
                 padding:const EdgeInsets.all(16),
                 decoration:BoxDecoration(
-                  borderRadius:BorderRadius.circular(6),
+                  borderRadius:BorderRadius.circular(8),
                   border:BoxBorder.all(
                     color:Color(0xFFD9D9D9),
                     width:2,
@@ -61,10 +64,10 @@ class _CalendarScreenState extends State<CalendarScreen>{
                 ),
                 child:Column(
                   crossAxisAlignment:CrossAxisAlignment.start,
-                  // spacing:8,
+                  spacing:24,
                   children:[
                     Text(
-                      '9',
+                      '${today.day}',
                       style:TextStyle(
                         height:1,
                         fontWeight:FontWeight.w400,
@@ -74,7 +77,7 @@ class _CalendarScreenState extends State<CalendarScreen>{
                     Expanded(
                       child:
                         ListView.separated(
-                          separatorBuilder:(context,index)=>SizedBox(height:0),
+                          separatorBuilder:(context,index)=>SizedBox(height:10),
                           itemCount:todayTasks.length,
                           itemBuilder:(context,index)=>
                             TodayTask(

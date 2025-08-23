@@ -19,7 +19,7 @@ class _TasksListState extends State<TasksList>{
     return Container(
       padding:const EdgeInsets.all(16),
       decoration:BoxDecoration(
-        borderRadius:BorderRadius.circular(6),
+        borderRadius:BorderRadius.circular(8),
         color:widget.list.color,
       ),
       child: Column(
