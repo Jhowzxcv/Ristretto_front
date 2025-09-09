@@ -38,11 +38,21 @@ class _AddListScreenState extends State<AddListScreen> {
           SizedBox(height:32),
           TextField(
             textAlign:TextAlign.center,
-            style:Theme.of(context).textTheme.headlineMedium,
+            style:Theme.of(context).textTheme.headlineMedium!.copyWith(
+              color:Colors.black,
+              fontWeight:FontWeight.w700
+            ),
             decoration:InputDecoration(
               filled:true,
               fillColor:selectedListColor.color,
               hintText:'Nome da Lista',
+              hintStyle:TextStyle(
+                color:Colors.black,
+              ),
+              enabledBorder:OutlineInputBorder(
+                borderSide:BorderSide(width:0,color:selectedListColor.color),
+                borderRadius:BorderRadius.circular(8),
+              ),
             ),
           ),
           SizedBox(height:24),
@@ -111,66 +121,120 @@ class _AddListScreenState extends State<AddListScreen> {
           ),
           SizedBox(height:28),
           if(selectedListType==ListType.normal)
-            Container(
-              child:Column(
-                children:[
-                  Text(
-                    'Data para conclusão (opcional)',
-                    style:Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  Row(
-                    children:[
-                      Column(
+            Column(
+              children:[
+                Text(
+                  'Data para conclusão (opcional)',
+                  style:Theme.of(context).textTheme.headlineSmall,
+                ),
+                SizedBox(height:10),
+                Row(
+                  children:[
+                    Expanded(
+                      child:Column(
                         children:[
-                          Text('dia'),
-                          Container(
-                            child:Text('dd'),
+                          Text('dia',style:TextStyle(
+                            fontSize:16,
+                            color:Color(0XFFD9D9D9),
+                          ),),
+                          TextField(
+                            keyboardType:TextInputType.number,
+                            textAlign:TextAlign.center,
+                            style:Theme.of(context).textTheme.headlineMedium,
+                            decoration:InputDecoration(
+                              hintText:'dd',
+                              hintStyle:TextStyle(color:Colors.black),
+                              enabledBorder:OutlineInputBorder(
+                                borderSide:BorderSide(width:2,color:Color(0xFFD9D9D9)),
+                                borderRadius:BorderRadius.circular(8),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide:BorderSide(width:2,color:Color(0XFF000000)),
+                                borderRadius:BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child:Column(
+                        children:[
+                          Text('mês',style:TextStyle(
+                            fontSize:16,
+                            color:Color(0XFFD9D9D9),
+                          ),),
+                          TextField(
+                            keyboardType:TextInputType.number,
+                            textAlign:TextAlign.center,
+                            style:Theme.of(context).textTheme.headlineMedium,
+                            decoration:InputDecoration(
+                              hintText:'mm',
+                              hintStyle:TextStyle(),
+                              enabledBorder:OutlineInputBorder(
+                                borderSide:BorderSide(width:1,color:Color(0xFFD9D9D9)),
+                                borderRadius:BorderRadius.circular(8),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide:BorderSide(width:2,color:Color(0XFF000000)),
+                                borderRadius:BorderRadius.circular(8),
+                              ),
+                            ),
                           ),
                         ]
                       ),
-                      Column(
+                    ),
+                    Expanded(
+                      child:Column(
                         children:[
-                          Text('mês'),
-                          Container(
-                            child:Text('mm'),
+                          Text('ano',style:TextStyle(
+                            fontSize:16,
+                            color:Color(0XFFD9D9D9),
+                          ),),
+                          TextField(
+                            keyboardType:TextInputType.number,
+                            textAlign:TextAlign.center,
+                            style:Theme.of(context).textTheme.headlineMedium,
+                            decoration:InputDecoration(
+                              hintText:'aaaa',
+                              hintStyle:TextStyle(),
+                              enabledBorder:OutlineInputBorder(
+                                borderSide:BorderSide(width:1,color:Color(0xFFD9D9D9)),
+                                borderRadius:BorderRadius.circular(8),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide:BorderSide(width:2,color:Color(0XFF000000)),
+                                borderRadius:BorderRadius.circular(8),
+                              ),
+                            ),
                           ),
                         ]
                       ),
-                      Column(
-                        children:[
-                          Text('ano'),
-                          Container(
-                            child:Text('aaaa'),
-                          ),
-                        ]
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             )
           else
-            Container(
-              child:Column(
-                children:[
-                  Row(
-                    children:[
-                      Text('Repetir a cada'),
-                      // TextField(),
-                      // TextField(),
-                    ],
-                  ),
-                  Row(
-                    children:[
-                      TheCheckbox(
-                        isChecked:false,
-                        toggleState:(){},
-                      ),
-                      Text('Modo Repetição Automática'),
-                    ],
-                  ),
-                ],
-              ),
+            Column(
+              children:[
+                Row(
+                  children:[
+                    Text('Repetir a cada'),
+                    // TextField(),
+                    // TextField(),
+                  ],
+                ),
+                Row(
+                  children:[
+                    TheCheckbox(
+                      isChecked:false,
+                      toggleState:(){},
+                    ),
+                    Text('Modo Repetição Automática'),
+                  ],
+                ),
+              ],
             ),
         ],
       ),

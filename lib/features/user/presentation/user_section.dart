@@ -14,10 +14,13 @@ class UserSection extends StatelessWidget{
   Widget build(BuildContext context){
     return Column(
       crossAxisAlignment:CrossAxisAlignment.start,
+      spacing:8,
       children:[
         Text(
           title,
-          style:Theme.of(context).textTheme.titleMedium,
+          style:Theme.of(context).textTheme.headlineSmall!.copyWith(
+            fontWeight:FontWeight.w600,
+          ),
         ),
         child,
       ],

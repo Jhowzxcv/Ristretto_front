@@ -4,13 +4,15 @@ import 'package:ristretto/core/themes/colors.dart';
 import 'package:ristretto/features/user/presentation/user_section.dart';
 
 class UserScreen extends StatelessWidget{
+  const UserScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children:[
         SizedBox(
           width:double.infinity,
-          height:325,
+          height:450,
           child:Image.asset('assets/images/background.png',fit:BoxFit.cover),
         ),
         Positioned(
@@ -39,7 +41,11 @@ class UserScreen extends StatelessWidget{
                   borderRadius:BorderRadius.only(
                     topLeft:Radius.circular(8),
                     topRight:Radius.circular(8),
-                  )
+                  ),
+                  border:BoxBorder.all(
+                    color:Color(0XFFD9D9D9),
+                    width:2,
+                  ),
                 ),
                 child: SingleChildScrollView(
                   child: Column(
@@ -55,18 +61,27 @@ class UserScreen extends StatelessWidget{
                         child:Row(
                           spacing:8,
                           children: [
-                            Icon(Icons.shopping_cart),
+                            Container(
+                              padding:EdgeInsets.all(16),
+                              decoration:BoxDecoration(
+                                color:Color(0XFFC8E1FF),
+                                shape:BoxShape.circle,
+                              ),
+                              child: Icon(Icons.shopping_cart),
+                            ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment:CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Uma caixa de leite',
-                                    style:Theme.of(context).textTheme.titleMedium,
+                                    style:Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                      fontWeight:FontWeight.w600,
+                                    ),
                                   ),
                                   Text(
                                     'João, seu progresso está indo bem!',
-                                    style:Theme.of(context).textTheme.bodyMedium,
+                                    style:Theme.of(context).textTheme.headlineSmall,
                                     softWrap:true,
                                   ),
                                 ],
@@ -91,7 +106,9 @@ class UserScreen extends StatelessWidget{
                                   child:Column(
                                     crossAxisAlignment:CrossAxisAlignment.start,
                                     children:[
-                                      Text('Tarefas concluídas',style:Theme.of(context).textTheme.titleMedium),
+                                      Text('Tarefas concluídas',style:Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        fontWeight:FontWeight.w600,
+                                      )),
                                       Text('19',style:Theme.of(context).textTheme.displayLarge),
                                     ],
                                   ),
@@ -105,7 +122,9 @@ class UserScreen extends StatelessWidget{
                                   child:Column(
                                     crossAxisAlignment:CrossAxisAlignment.start,
                                     children:[
-                                      Text('Rotina',style:Theme.of(context).textTheme.titleMedium),
+                                      Text('Rotina',style:Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        fontWeight:FontWeight.w600,
+                                      )),
                                       Text('88%',style:Theme.of(context).textTheme.displayLarge),
                                     ],
                                   ),

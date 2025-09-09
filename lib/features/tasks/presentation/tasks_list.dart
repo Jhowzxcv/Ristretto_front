@@ -4,6 +4,8 @@ import 'package:ristretto/features/tasks/presentation/tasks_list_item.dart';
 
 import 'package:ristretto/core/models/itasks_list.dart';
 
+import 'dart:math';
+
 class TasksList extends StatefulWidget{
   final ITasksList list;
 
@@ -14,6 +16,8 @@ class TasksList extends StatefulWidget{
 }
 
 class _TasksListState extends State<TasksList>{
+  bool visibility=true;
+
   @override
   Widget build(BuildContext context){
     return Container(
@@ -23,7 +27,6 @@ class _TasksListState extends State<TasksList>{
         color:widget.list.color,
       ),
       child: Column(
-        spacing:16,
         children:[
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -38,28 +41,50 @@ class _TasksListState extends State<TasksList>{
                   ),
                 ],
               ),
-              Icon(Icons.keyboard_arrow_down_sharp),
-            ],
-          ),
-          Column(
-            spacing:12,
-            children:List.generate(
-              widget.list.tasks.length,
-              (index)=>TasksListItem(
-                widget.list.tasks[index],
-                toggleTaskState:(){
+              GestureDetector(
+                onTap:(){
+                  debugPrint('toggling visibility');
                   setState((){
-                    widget.list.tasks[index].toggleState();
+                    visibility=!visibility;
                   });
                 },
+                child:Transform.rotate(
+                  angle:visibility?0:pi,
+                  child:Icon(Icons.keyboard_arrow_down_sharp),
+                ),
               ),
-            ),
+            ],
           ),
-          Align(
-            alignment:Alignment.center,
-            child:GestureDetector(
-              onTap:(){},
-              child:Icon(Icons.add),
+          AnimatedSize(
+            duration:Duration(milliseconds:267),
+            child:SizedBox(
+              height:visibility?null:0,
+              child: Column(
+                children:[
+                  SizedBox(height:16),
+                  Column(
+                    spacing:12,
+                    children:List.generate(
+                      widget.list.tasks.length,
+                      (index)=>TasksListItem(
+                        widget.list.tasks[index],
+                        toggleTaskState:(){
+                          setState((){
+                            widget.list.tasks[index].toggleState();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment:Alignment.center,
+                    child:GestureDetector(
+                      onTap:(){},
+                      child:Icon(Icons.add),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
