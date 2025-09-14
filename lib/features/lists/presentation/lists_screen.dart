@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:ristretto/features/add_task/presentation/add_task_list.dart';
+import 'package:ristretto/features/lists/presentation/add_task_list.dart';
 
 import 'package:ristretto/mock.dart';
 
-class AddTaskScreen extends StatelessWidget{
-  const AddTaskScreen({super.key});
+class ListsScreen extends StatelessWidget{
+  const ListsScreen({super.key});
 
   @override
   Widget build(BuildContext context){
     return Padding(
       padding:const EdgeInsets.all(24),
       child: Column(
-        spacing:30,
         children:[
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
             children:[
+              // Title
               Text(
-                'Lista de Listas',
+                'Listas',
                 style:Theme.of(context).textTheme.headlineLarge,
               ),
+              // Button to Edit List
               Icon(Icons.edit),
             ],
           ),
@@ -33,11 +34,16 @@ class AddTaskScreen extends StatelessWidget{
               children:List.generate(
                 listsSkeleton.length+1,
                 (index)=>index!=listsSkeleton.length
+                  // Render List
                   ?ListSkeleton(listsSkeleton[index])
+                  // Button to Add New List
                   :GestureDetector(
-                    onTap:()=>context.go('/add-task/add-list'),
+                    onTap:()=>context.go('/add-list'),
                     child: Container(
-                      color:Color(0xFFEEEEEE),
+                      decoration:BoxDecoration(
+                        color:Color(0xFFEEEEEE),
+                        borderRadius:BorderRadius.circular(8),
+                      ),
                       child: FractionallySizedBox(
                         heightFactor:0.25,
                         child:Icon(Icons.add,size:50),

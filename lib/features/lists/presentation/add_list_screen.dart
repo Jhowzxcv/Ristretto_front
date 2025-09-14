@@ -6,12 +6,15 @@ class AddListScreen extends StatefulWidget{
   const AddListScreen({super.key});
 
   @override
-  State<AddListScreen> createState() => _AddListScreenState();
+  State<AddListScreen> createState()=>_AddListScreenState();
 }
 
-enum ListType{normal,periodic}
+enum ListType{
+  normal,
+  periodic,
+}
 
-class _AddListScreenState extends State<AddListScreen> {
+class _AddListScreenState extends State<AddListScreen>{
   ListColor selectedListColor=ListColor.listColorA;
   ListType selectedListType=ListType.normal;
 
@@ -36,6 +39,7 @@ class _AddListScreenState extends State<AddListScreen> {
             child:Icon(Icons.square),
           ),
           SizedBox(height:32),
+          // Text Field to Enter new List Title
           TextField(
             textAlign:TextAlign.center,
             style:Theme.of(context).textTheme.headlineMedium!.copyWith(
@@ -56,6 +60,7 @@ class _AddListScreenState extends State<AddListScreen> {
             ),
           ),
           SizedBox(height:24),
+          // Select New List Color from Range
           Row(
             mainAxisSize:MainAxisSize.max,
             spacing:8,
@@ -64,18 +69,18 @@ class _AddListScreenState extends State<AddListScreen> {
                 flex:1,
                 child: GestureDetector(
                   onTap:(){
-                    setState((){
-                      selectedListColor=listColor;
-                    });
+                    setState(()=>selectedListColor=listColor);
                   },
-                  child: AspectRatio(
+                  child:AspectRatio(
                     aspectRatio:1,
                     child: Container(
                       decoration:BoxDecoration(
                         color:listColor.color,
                         borderRadius:BorderRadius.circular(4),
                         border:BoxBorder.all(
-                          color:listColor==selectedListColor?darken(listColor.color,0.65):Colors.transparent,
+                          color:listColor==selectedListColor
+                            ?darken(listColor.color,0.65)
+                            :Colors.transparent,
                           width:2.5,
                         ),
                       ),
@@ -86,9 +91,11 @@ class _AddListScreenState extends State<AddListScreen> {
             ).toList(),
           ),
           SizedBox(height:24),
+          // Choose New List Type
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
             children:[
+              // Input to Choose Normal Type
               Row(
                 spacing:8,
                 children:[
@@ -103,6 +110,7 @@ class _AddListScreenState extends State<AddListScreen> {
                   Text('Padrão',style:Theme.of(context).textTheme.headlineMedium),
                 ],
               ),
+              // Input to Choose Periodic Type
               Row(
                 spacing:8,
                 children: [
@@ -120,6 +128,7 @@ class _AddListScreenState extends State<AddListScreen> {
             ],
           ),
           SizedBox(height:28),
+          // If Current Type is Normal
           if(selectedListType==ListType.normal)
             Column(
               children:[
@@ -129,6 +138,7 @@ class _AddListScreenState extends State<AddListScreen> {
                 ),
                 SizedBox(height:10),
                 Row(
+                  spacing:16,
                   children:[
                     Expanded(
                       child:Column(
@@ -215,6 +225,7 @@ class _AddListScreenState extends State<AddListScreen> {
                 ),
               ],
             )
+          // If Current Type is Periodic
           else
             Column(
               children:[

@@ -19,7 +19,7 @@ class TodayTask extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Container(
-      padding:const EdgeInsets.all(10),
+      padding:const EdgeInsets.all(16),
       decoration:BoxDecoration(
         color:task.color,
         borderRadius:BorderRadius.circular(8),
@@ -28,10 +28,12 @@ class TodayTask extends StatelessWidget{
         child: Row(
           mainAxisAlignment:MainAxisAlignment.spaceBetween,
           children:[
+            // Show Task Title
             Text(
               task.title,
               style:Theme.of(context).textTheme.headlineSmall,
             ),
+            // Toggle Task Completeness
             TheCheckbox(
               isChecked:task.isComplete,
               toggleState:toggleTaskState,

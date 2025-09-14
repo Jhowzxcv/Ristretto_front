@@ -16,15 +16,14 @@ class TasksScreen extends StatelessWidget{
         spacing:16,
         children:[
           TasksTitle(totalTodayTasks:todayTasks.length),
+          // Render tasks lists
           Expanded(
             child:SingleChildScrollView(
               child:Column(
                 spacing:16,
-                children:[
-                  TasksList(theLists[0]),
-                  TasksList(theLists[1]),
-                  TasksList(theLists[2]),
-                ],
+                children:theLists
+                  .map((theList)=>TasksList(theList))
+                  .toList(),
               ),
             ),
           ),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 import 'package:ristretto/features/tasks/presentation/tasks_list_item.dart';
 
 import 'package:ristretto/core/models/itasks_list.dart';
-
-import 'dart:math';
 
 class TasksList extends StatefulWidget{
   final ITasksList list;
@@ -31,6 +30,7 @@ class _TasksListState extends State<TasksList>{
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween,
             children:[
+              // Show List Title
               Row(
                 spacing:4,
                 children:[
@@ -41,13 +41,10 @@ class _TasksListState extends State<TasksList>{
                   ),
                 ],
               ),
+              // Button to Toggle Visibility of Tasks (show or hide them)
               GestureDetector(
-                onTap:(){
-                  debugPrint('toggling visibility');
-                  setState((){
-                    visibility=!visibility;
-                  });
-                },
+                onTap:()=>
+                  setState(()=>visibility=!visibility),
                 child:Transform.rotate(
                   angle:visibility?0:pi,
                   child:Icon(Icons.keyboard_arrow_down_sharp),
@@ -55,27 +52,28 @@ class _TasksListState extends State<TasksList>{
               ),
             ],
           ),
+          // Show Tasks Container
           AnimatedSize(
-            duration:Duration(milliseconds:267),
+            duration:Duration(milliseconds:250),
             child:SizedBox(
               height:visibility?null:0,
               child: Column(
                 children:[
                   SizedBox(height:16),
+                  // Show Tasks
                   Column(
                     spacing:12,
-                    children:List.generate(
-                      widget.list.tasks.length,
-                      (index)=>TasksListItem(
-                        widget.list.tasks[index],
-                        toggleTaskState:(){
-                          setState((){
-                            widget.list.tasks[index].toggleState();
-                          });
-                        },
-                      ),
-                    ),
+                    children:widget.list.tasks
+                      .map((task)=>TasksListItem(
+                        task,
+                        toggleTaskState:()=>setState((){
+                          debugPrint(task.title);
+                          task.toggleState();
+                        })
+                      ))
+                      .toList(),
                   ),
+                  // Button to Add new task to Current List
                   Align(
                     alignment:Alignment.center,
                     child:GestureDetector(

@@ -10,31 +10,16 @@ class TasksListItem extends StatelessWidget{
   final ITask task;
   final void Function() toggleTaskState;
 
-  const TasksListItem(this.task,{super.key,required this.toggleTaskState});
+  const TasksListItem(
+    this.task,
+    {
+      super.key,
+      required this.toggleTaskState,
+    }
+  );
 
   @override
   Widget build(BuildContext context){
-    // return IntrinsicHeight(
-    //   child: ListTile(
-    //     contentPadding:EdgeInsets.zero,
-    //     title:Text(
-    //       task.title,
-    //       style:Theme.of(context).textTheme.headlineSmall
-    //     ),
-    //     subtitle:Text(
-    //       task.deadline,
-    //       style:TextStyle(
-    //         fontWeight:FontWeight.w400,
-    //         fontSize:14,
-    //         color:AppColors.secondaryColor,
-    //       ),
-    //     ),
-    //     trailing:TheCheckbox(
-    //       isChecked:task.isComplete,
-    //       toggleState:toggleTaskState,
-    //     ),
-    //   ),
-    // );
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment:MainAxisAlignment.spaceBetween,
@@ -42,12 +27,14 @@ class TasksListItem extends StatelessWidget{
           Column(
             crossAxisAlignment:CrossAxisAlignment.start,
             children:[
+              // Show Task Title
               Text(
                 task.title,
                 style:Theme.of(context).textTheme.headlineSmall,
               ),
+              // Show Task Deadline
               Text(
-                formatDeadline(task.deadline),
+                formatDeadline(DateTime.now(),task.deadline),
                 style:TextStyle(
                   fontWeight:FontWeight.w400,
                   fontSize:14,
@@ -56,6 +43,7 @@ class TasksListItem extends StatelessWidget{
               ),
             ],
           ),
+          // Toggle Task Completeness
           TheCheckbox(
             isChecked:task.isComplete,
             toggleState:toggleTaskState,

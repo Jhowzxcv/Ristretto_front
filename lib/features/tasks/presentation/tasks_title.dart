@@ -22,6 +22,7 @@ class TasksTitle extends StatelessWidget{
         Row(
           mainAxisAlignment:MainAxisAlignment.spaceBetween,
           children:[
+            // Show how many tasks with today as a deadline
             Text.rich(
               TextSpan(
                 text:'$totalTodayTasks tarefas para ',
@@ -35,10 +36,6 @@ class TasksTitle extends StatelessWidget{
               ),
             ),
             Icon(Icons.swap_vert),
-            // IconButton(
-            //   onPressed:(){},
-            //   icon:Icon(Icons.swap_vert),
-            // ),
           ],
         ),
       ],

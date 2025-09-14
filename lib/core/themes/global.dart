@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
-final ThemeData lightTheme=ThemeData(
+final ThemeData globalTheme=ThemeData(
   fontFamily:'Gabarito',
   colorScheme:ColorScheme.fromSeed(
     seedColor:AppColors.primaryColor,
