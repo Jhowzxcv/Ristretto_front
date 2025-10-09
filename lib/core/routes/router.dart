@@ -15,7 +15,8 @@ import 'package:ristretto/features/register/presentation/register_screen.dart';
 
 // Router
 final GoRouter router=GoRouter(
-  initialLocation:'/tasks',
+  initialLocation:'/register',
+  // initialLocation:'/tasks',
   routes:[
     // Main App routing
     StatefulShellRoute.indexedStack(
@@ -69,13 +70,13 @@ final GoRouter router=GoRouter(
       ],
     ),
     // Authentication routing
-    // GoRoute(
-    //   path:'/login',
-    //   builder:(context,state)=>LoginScreen(),
-    // ),
-    // GoRoute(
-    //   path:'/register',
-    //   builder:(context,state)=>RegisterScreen(),
-    // ),
+    GoRoute(
+      path:'/login',
+      builder:(context,state)=>LoginScreen(),
+    ),
+    GoRoute(
+      path:'/register',
+      builder:(context,state)=>RegisterScreen(),
+    ),
   ],
 );
