@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ristretto/core/services/user.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
 class LoginScreen extends StatefulWidget{
@@ -20,7 +21,32 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isPasswordVisible=false;
   IUserFormState userFormState=IUserFormState();
 
+  bool loginError=false;
+
   final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
+
+  Future<void> onSubmit(BuildContext context)async{
+    _formKey.currentState!.save();
+
+    // validating
+    // if(!_formKey.currentState!.validate())return;
+
+    final bool result=await UserService.instance.verifyLogin(
+      email:userFormState.email,
+      password:userFormState.password,
+    );
+
+    if(!result){
+      setState(()=>loginError=true);
+      return;
+    }
+
+    debugPrint('Login successfully');
+    setState(()=>loginError=false);
+
+
+    // context.go('/tasks');
+  }
 
   @override
   Widget build(BuildContext context){
@@ -46,6 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       decoration:InputDecoration(
                         labelText:'Email',
+                        errorStyle:TextStyle(
+                          fontSize:14,
+                        ),
                       ),
                       keyboardType:TextInputType.emailAddress,
                       onSaved: (newValue) => userFormState.email=newValue!,
@@ -53,6 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       obscureText:!isPasswordVisible,
                       decoration:InputDecoration(
+                        errorStyle:TextStyle(
+                          fontSize:14,
+                        ),
+                        errorMaxLines:3,
                         labelText:'Senha',
                         suffixIcon:IconButton(
                           icon:Icon(
@@ -68,14 +101,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType:TextInputType.visiblePassword,
                       onSaved: (newValue) => userFormState.password=newValue!,
                     ),
+                    if(loginError)
+                      Text(
+                        'Email e senha incorretos',
+                        textAlign:TextAlign.center,
+                        style:TextStyle(
+                          fontSize:16,
+                          fontWeight:FontWeight.w500,
+                          color:Colors.red,
+                        ),
+                      ),
                     FilledButton(
                       onPressed:(){
-                        _formKey.currentState!.save();
-
-                        // debugPrint(userFormState.email);
-                        // debugPrint(userFormState.password);
+                        onSubmit(context);
                       },
-                      child:Text('Criar Conta'),
+                      child:Text('Fazer Login'),
                     ),
                   ],
                 ),

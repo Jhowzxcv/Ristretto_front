@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ristretto/core/services/user.dart';
+import 'package:ristretto/core/models/iuser.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
 class RegisterScreen extends StatefulWidget{
@@ -22,6 +24,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
   IUserFormState userFormState=IUserFormState();
 
   final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
+
+  bool errorEmailExists=false;
+
+  Future<void> onSubmit(BuildContext context)async{
+    _formKey.currentState!.save();
+
+    // validating
+    errorEmailExists=await UserService.instance.verifyEmailExistence(userFormState.email);
+    if(!_formKey.currentState!.validate())return;
+
+    // create user
+    final newUser=IUser(
+      name:userFormState.name,
+      email:userFormState.email,
+      password:userFormState.password,
+    );
+
+    await UserService.instance.createUser(newUser);
+
+    context.go('/login');
+  }
+
+  String? validateName(String? value){
+    if(value!.isEmpty)return 'Nome não pode ser vazio';
+    if(value.length>32)return 'Nome é muito longo (máximo: 32 caractéres)';
+
+    return null;
+  }
+
+  String? validateEmail(String? value){
+    if(value!.isEmpty)return 'Email não pode ser vazio';
+    if(errorEmailExists)return 'Email já está sendo utilizado';
+
+    return null;
+  }
+
+  String? validatePassword(String? value){
+    if(value!.isEmpty)return 'Senha não pode ser vazia';
+
+    final regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$');
+
+    if(!regex.hasMatch(value!))
+      return 'A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais';
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context){
@@ -47,20 +95,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       decoration:InputDecoration(
                         labelText:'Nome',
+                        errorStyle:TextStyle(
+                          fontSize:14,
+                        ),
                       ),
                       keyboardType:TextInputType.text,
                       onSaved: (newValue) => userFormState.name=newValue!,
+                      validator:validateName,
+                      maxLength:32,
                     ),
                     TextFormField(
                       decoration:InputDecoration(
                         labelText:'Email',
+                        errorStyle:TextStyle(
+                          fontSize:14,
+                        ),
                       ),
                       keyboardType:TextInputType.emailAddress,
                       onSaved: (newValue) => userFormState.email=newValue!,
+                      validator:validateEmail,
                     ),
                     TextFormField(
                       obscureText:!isPasswordVisible,
                       decoration:InputDecoration(
+                        errorStyle:TextStyle(
+                          fontSize:14,
+                        ),
+                        errorMaxLines:3,
                         labelText:'Senha',
                         suffixIcon:IconButton(
                           icon:Icon(
@@ -75,14 +136,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       keyboardType:TextInputType.visiblePassword,
                       onSaved: (newValue) => userFormState.password=newValue!,
+                      validator:validatePassword,
                     ),
                     FilledButton(
                       onPressed:(){
-                        _formKey.currentState!.save();
-              
-                        // debugPrint(userFormState.name);
-                        // debugPrint(userFormState.email);
-                        // debugPrint(userFormState.password);
+                        onSubmit(context);
                       },
                       child:Text('Criar Conta'),
                     ),
