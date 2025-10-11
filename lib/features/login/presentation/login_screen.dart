@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:ristretto/core/services/user.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
+import 'package:http/http.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});
 
@@ -20,6 +23,7 @@ class IUserFormState{
 class _LoginScreenState extends State<LoginScreen> {
   bool isPasswordVisible=false;
   IUserFormState userFormState=IUserFormState();
+  final _storage=FlutterSecureStorage();
 
   bool loginError=false;
 
@@ -31,21 +35,35 @@ class _LoginScreenState extends State<LoginScreen> {
     // validating
     // if(!_formKey.currentState!.validate())return;
 
-    final bool result=await UserService.instance.verifyLogin(
-      email:userFormState.email,
-      password:userFormState.password,
-    );
+    // final bool result=await UserService.instance.verifyLogin(
+    //   email:userFormState.email,
+    //   password:userFormState.password,
+    // );
 
-    if(!result){
+    // if(!result){
+    //   setState(()=>loginError=true);
+    //   return;
+    // }
+
+    await _storage.delete(key: 'accessToken');
+
+    try{
+      await UserService.instance.login(
+        email:userFormState.email,
+        password:userFormState.password,
+      );
+
+      debugPrint('Login successfully');
+      setState(()=>loginError=false);
+
+      final token=await _storage.read(key:'accessToken');
+      debugPrint(token);
+      context.go('/user');
+    }catch(err){
+      debugPrint('Login failed: ');
+      debugPrint(err.toString());
       setState(()=>loginError=true);
-      return;
     }
-
-    debugPrint('Login successfully');
-    setState(()=>loginError=false);
-
-
-    // context.go('/tasks');
   }
 
   @override

@@ -6,6 +6,8 @@ import 'package:ristretto/core/services/user.dart';
 import 'package:ristretto/core/models/iuser.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
+import 'package:ristretto/core/services/user.dart';
+
 class RegisterScreen extends StatefulWidget{
   const RegisterScreen({super.key});
 
@@ -30,18 +32,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> onSubmit(BuildContext context)async{
     _formKey.currentState!.save();
 
-    // validating
+    // // validating
     errorEmailExists=await UserService.instance.verifyEmailExistence(userFormState.email);
     if(!_formKey.currentState!.validate())return;
 
-    // create user
-    final newUser=IUser(
-      name:userFormState.name,
-      email:userFormState.email,
-      password:userFormState.password,
-    );
+    // // create user
+    // final newUser=IUser(
+    //   name:userFormState.name,
+    //   email:userFormState.email,
+    //   password:userFormState.password,
+    // );
 
-    await UserService.instance.createUser(newUser);
+    // await UserService.instance.createUser(newUser);
+
+    try{
+      await UserService.instance.register(
+        name:userFormState.name,
+        email:userFormState.email,
+        password:userFormState.password,
+      );
+    }catch(err){
+      debugPrint(err.toString());
+    }
 
     context.go('/login');
   }
