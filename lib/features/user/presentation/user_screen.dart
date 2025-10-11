@@ -1,10 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ristretto/core/models/isigned_in_user.dart';
+import 'package:ristretto/core/services/user.dart';
 import 'package:ristretto/core/themes/colors.dart';
 
 import 'package:ristretto/features/user/presentation/user_section.dart';
 
-class UserScreen extends StatelessWidget{
+import 'package:jwt_decoder/jwt_decoder.dart';
+
+class UserScreen extends StatefulWidget{
   const UserScreen({super.key});
+
+  @override
+  State<UserScreen> createState() => _UserScreenState();
+}
+
+class _UserScreenState extends State<UserScreen> {
+  final storage=FlutterSecureStorage();
+
+  IsignedInUser? signedinUser;
+
+  Future<void> x()async{
+    final accessToken=await storage.read(key:'accessToken');
+
+    if(accessToken==null)return;
+
+    debugPrint(accessToken);
+
+    final decoded=JwtDecoder.decode(accessToken);
+
+    debugPrint(decoded.toString());
+    final userId=decoded['userId'];
+    debugPrint(userId.toString());
+
+    final IsignedInUser r=await UserService.instance.getUserById(userId.toString());
+
+    setState(()=>signedinUser=r);
+
+    debugPrint(r.name);
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    x();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +67,7 @@ class UserScreen extends StatelessWidget{
               child:Column(
                 children:[
                   Text('Bom dia!',style:Theme.of(context).textTheme.bodyMedium),
-                  Text('João Pedro',style:Theme.of(context).textTheme.headlineLarge),
+                  Text(signedinUser==null?'darn':signedinUser!.name,style:Theme.of(context).textTheme.headlineLarge),
                 ],
               ),
             ),

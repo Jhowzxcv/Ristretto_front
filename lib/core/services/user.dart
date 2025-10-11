@@ -5,6 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
+import 'package:ristretto/core/models/isigned_in_user.dart';
 
 import 'api.dart';
 
@@ -58,6 +60,16 @@ class UserService{
   Future<bool> verifyEmailExistence(String email)async{
     return false;
     // return true;
+  }
+
+  Future<IsignedInUser> getUserById(String userId)async{
+    final response=await ApiClient.instance.dio.get('/users/$userId');
+
+    IsignedInUser user=IsignedInUser(
+      name:response.data['name'],
+    );
+  
+    return user;
   }
 
   // // get database connection
