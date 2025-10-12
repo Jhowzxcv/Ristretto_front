@@ -22,10 +22,13 @@ class _LoginScreenState extends State<LoginScreen>{
   final ILoginFormState _userFormState=ILoginFormState();
   bool _isPasswordVisible=false;
   bool _loginError=false;
+  bool _isLoading=false;
 
   // Form Submission
   Future<void> _onSubmit(BuildContext context)async{
     _formKey.currentState!.save();
+
+    setState(()=>_isLoading=true);
 
     try{
       await UserService.instance.login(
@@ -34,11 +37,17 @@ class _LoginScreenState extends State<LoginScreen>{
       );
 
       // Login Success
-      setState(()=>_loginError=false);
       context.go('/user');
+      // setState((){
+      //   _loginError=false;
+      //   _isLoading=false;
+      // });
     }catch(err){
       // Login Failed
-      setState(()=>_loginError=true);
+      setState((){
+        _loginError=true;
+        _isLoading=false;
+      });
     }
   }
 
@@ -64,6 +73,8 @@ class _LoginScreenState extends State<LoginScreen>{
           fontSize:14,
         ),
       ),
+      textInputAction:TextInputAction.next,
+      initialValue:_userFormState.email,
       keyboardType:TextInputType.emailAddress,
       onSaved:(newValue)=>_userFormState.email=newValue!,
     );
@@ -134,7 +145,10 @@ class _LoginScreenState extends State<LoginScreen>{
       body:Center(
         child:Padding(
           padding:const EdgeInsets.all(16),
-          child: Column(
+          child:
+          _isLoading
+          ?CircularProgressIndicator()
+          :Column(
             mainAxisSize:MainAxisSize.min,
             spacing:16,
             children: [

@@ -17,7 +17,8 @@ class UserScreen extends StatefulWidget{
 
 class _UserScreenState extends State<UserScreen>{
   final storage=FlutterSecureStorage();
-  late IUser user;
+  late IUser _user;
+  bool _isLoading=true;
 
   // Load User Data
   Future<void> _initializeData()async{
@@ -28,7 +29,14 @@ class _UserScreenState extends State<UserScreen>{
     final decoded=JwtDecoder.decode(accessToken);
     final userId=decoded['userId'];
     final IUser temp=await UserService.instance.getUserById(userId.toString());
-    setState(()=>user=temp);
+
+    // Delay on Purpose (delete after)
+    await Future.delayed(Duration(seconds:3));
+
+    setState((){
+      _user=temp;
+      _isLoading=false;
+    });
   }
 
   @override
@@ -48,7 +56,7 @@ class _UserScreenState extends State<UserScreen>{
             style:Theme.of(context).textTheme.bodyMedium,
           ),
           Text(
-            user.name,
+            _user.name,
             style:Theme.of(context).textTheme.headlineLarge,
           ),
         ],
@@ -190,54 +198,59 @@ class _UserScreenState extends State<UserScreen>{
 
   @override
   Widget build(BuildContext context){
-    return Stack(
-      children:[
-        SizedBox(
-          width:double.infinity,
-          height:450,
-          child:Image.asset('assets/images/background.png',fit:BoxFit.cover),
-        ),
-        Positioned(
-          right:16,
-          top:16,
-          child:Icon(Icons.settings),
-        ),
-        Column(
+    return 
+      _isLoading
+        ?Center(
+          child:CircularProgressIndicator(),
+        )
+        :Stack(
           children:[
-            _buildWelcomeUser(context),
-            Expanded(
-              flex:1,
-              child: Container(
-                padding:const EdgeInsets.all(16),
-                margin:const EdgeInsets.symmetric(horizontal:16),
-                decoration:BoxDecoration(
-                  color:Colors.white,
-                  borderRadius:BorderRadius.only(
-                    topLeft:Radius.circular(8),
-                    topRight:Radius.circular(8),
-                  ),
-                  border:BoxBorder.all(
-                    color:Color(0XFFD9D9D9),
-                    width:2,
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment:CrossAxisAlignment.start,
-                    spacing:12,
-                    children:[
-                      _buildAchievement(context),
-                      _buildStats(context),
-                      _buildReport(),
-                      _buildStreak(context),
-                    ],
-                  ),
-                ),
-              ),
+            SizedBox(
+              width:double.infinity,
+              height:450,
+              child:Image.asset('assets/images/background.png',fit:BoxFit.cover),
             ),
-          ],
-        ),
-      ]
-    );
+            Positioned(
+              right:16,
+              top:16,
+              child:Icon(Icons.settings),
+            ),
+            Column(
+              children:[
+                _buildWelcomeUser(context),
+                Expanded(
+                  flex:1,
+                  child: Container(
+                    padding:const EdgeInsets.all(16),
+                    margin:const EdgeInsets.symmetric(horizontal:16),
+                    decoration:BoxDecoration(
+                      color:Colors.white,
+                      borderRadius:BorderRadius.only(
+                        topLeft:Radius.circular(8),
+                        topRight:Radius.circular(8),
+                      ),
+                      border:BoxBorder.all(
+                        color:Color(0XFFD9D9D9),
+                        width:2,
+                      ),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment:CrossAxisAlignment.start,
+                        spacing:12,
+                        children:[
+                          _buildAchievement(context),
+                          _buildStats(context),
+                          _buildReport(),
+                          _buildStreak(context),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ]
+        );
   }
 }

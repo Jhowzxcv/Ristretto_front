@@ -16,36 +16,52 @@ class UserService{
     required String email,
     required String password
   })async{
-    final response=await ApiClient.instance.dio.post(
-      '/auth/login',
-      data:{
-        'email':email,
-        'password':password,
-      },
-    );
+    // Delay on Purpose (delete after)
+    await Future.delayed(Duration(seconds:3));
 
-    // Obtaining and Storing Access Token locally
-    final accessToken=response.data['accessToken'];
-    await _storage.write(
-      key:'accessToken',
-      value:accessToken,
-    );
+    try{
+      final response=await ApiClient.instance.dio.post(
+        '/auth/login',
+        data:{
+          'email':email,
+          'password':password,
+        },
+      );
+
+      // Obtaining and Storing Access Token locally
+      final accessToken=response.data['accessToken'];
+      await _storage.write(
+        key:'accessToken',
+        value:accessToken,
+      );
+    }catch(error){
+      rethrow;
+    }
   }
 
   // Register
-  Future<void> register({
+  Future<bool> register({
     required String name,
     required String email,
     required String password,
   })async{
-    await ApiClient.instance.dio.post(
-      '/users',
-      data:{
-        'name':name,
-        'email':email,
-        'password':password,
-      },
-    );
+    // Delay on Purpose (delete after)
+    await Future.delayed(Duration(seconds:3));
+
+    try{
+      await ApiClient.instance.dio.post(
+        '/users',
+        data:{
+          'name':name,
+          'email':email,
+          'password':password,
+        },
+      );
+    }catch(error){
+      return false;
+    }
+
+    return true;
   }
 
   // Change later

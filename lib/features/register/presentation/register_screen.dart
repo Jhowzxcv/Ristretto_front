@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final IUserRegisterState _userFormState=IUserRegisterState();
   bool _isPasswordVisible=false;
   bool _errorEmailExists=false;
+  bool _isLoading=false;
 
   // Validate Name Input
   String? _validateName(String? name){
@@ -63,15 +64,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     // Validate Form
     _errorEmailExists=await UserService.instance.verifyEmailExistence(_userFormState.email);
-    if(!_formKey.currentState!.validate())return;
+    if(!_formKey.currentState!.validate()||_errorEmailExists)return;
 
-    await UserService.instance.register(
+    setState(()=>_isLoading=true);
+
+    final bool isFormValid=await UserService.instance.register(
       name:_userFormState.name,
       email:_userFormState.email,
       password:_userFormState.password,
     );
 
-    context.go('/login');
+    if(isFormValid)context.go('/login');
+
+    setState((){
+      _isLoading=false;
+      _errorEmailExists=false;
+    });
   }
 
   // Toggle Password Visibility
@@ -96,6 +104,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           fontSize:14,
         ),
       ),
+      textInputAction:TextInputAction.next,
+      initialValue:_userFormState.name,
       keyboardType:TextInputType.text,
       onSaved:(newValue)=>_userFormState.name=newValue!,
       validator:_validateName,
@@ -112,6 +122,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
           fontSize:14,
         ),
       ),
+      textInputAction:TextInputAction.next,
+      initialValue:_userFormState.email,
       keyboardType:TextInputType.emailAddress,
       onSaved:(newValue)=>_userFormState.email=newValue!,
       validator:_validateEmail,
@@ -136,6 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onPressed:_togglePasswordVisibility,
         ),
       ),
+      initialValue:_userFormState.password,
       obscureText:!_isPasswordVisible,
       keyboardType:TextInputType.visiblePassword,
       onSaved:(newValue)=>_userFormState.password=newValue!,
@@ -171,32 +184,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body:Center(
         child:Padding(
           padding:const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize:MainAxisSize.min,
-            spacing:16,
-            children: [
-              _buildFormTitle(context),
-              Form(
-                key:_formKey,
-                child:Column(
-                  mainAxisSize:MainAxisSize.min,
-                  crossAxisAlignment:CrossAxisAlignment.stretch,
-                  spacing:16,
-                  children:[
-                    _buildNameInput(),
-                    _buildEmailInput(),
-                    _buildPasswordInput(),
-                    // Register Submission
-                    FilledButton(
-                      onPressed:()=>_onSubmit(context),
-                      child:Text('Criar Conta'),
+          child:
+            _isLoading
+              ?CircularProgressIndicator()
+              :Column(
+                mainAxisSize:MainAxisSize.min,
+                spacing:16,
+                children: [
+                  _buildFormTitle(context),
+                  Form(
+                    key:_formKey,
+                    child:Column(
+                      mainAxisSize:MainAxisSize.min,
+                      crossAxisAlignment:CrossAxisAlignment.stretch,
+                      spacing:16,
+                      children:[
+                        _buildNameInput(),
+                        _buildEmailInput(),
+                        _buildPasswordInput(),
+                        // Register Submission
+                        FilledButton(
+                          onPressed:()=>_onSubmit(context),
+                          child:Text('Criar Conta'),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  _buildFormFooter(context),
+                ],
               ),
-              _buildFormFooter(context),
-            ],
-          ),
         ),
       ),
     );
