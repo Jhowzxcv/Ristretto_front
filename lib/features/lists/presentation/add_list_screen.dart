@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ristretto/core/commons/widgets/the_checkbox.dart';
 import 'package:ristretto/core/themes/colors.dart';
+
+import 'package:ristretto/core/services/category.dart';
 
 class AddListScreen extends StatefulWidget{
   const AddListScreen({super.key});
@@ -9,244 +10,126 @@ class AddListScreen extends StatefulWidget{
   State<AddListScreen> createState()=>_AddListScreenState();
 }
 
-enum ListType{
-  normal,
-  periodic,
+class IListFormState{
+  String name='';
+  ListColor selectedListColor=ListColor.listColorA;
 }
 
 class _AddListScreenState extends State<AddListScreen>{
-  ListColor selectedListColor=ListColor.listColorA;
-  ListType selectedListType=ListType.normal;
+  IListFormState _listFormState=IListFormState();
+  final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
+
+  Future<void> _addList()async{
+    _formKey.currentState!.save();
+
+    await CategoryService.instance.create(
+      name:_listFormState.name,
+      listColor:_listFormState.selectedListColor,
+    );
+  }
+
+  // Title
+  Text _buildTitle(BuildContext context){
+    return Text(
+      'Nova Lista',
+      style:Theme.of(context).textTheme.headlineLarge,
+      textAlign:TextAlign.center,
+    );
+  }
+
+  // Select Icon
+  Container _buildIconInput(){
+    return Container(
+      width:120,
+      height:120,
+      decoration:BoxDecoration(
+        color:_listFormState.selectedListColor.color,
+        shape:BoxShape.circle,
+      ),
+      child:Icon(Icons.square),
+    );
+  }
+
+  // Text Field to Enter new List Title
+  TextFormField _buildNameInput(BuildContext context){
+    return TextFormField(
+      onSaved:(newValue)=>_listFormState.name=newValue!,
+      textAlign:TextAlign.center,
+      style:Theme.of(context).textTheme.headlineMedium!.copyWith(
+        color:Colors.black,
+        fontWeight:FontWeight.w700
+      ),
+      decoration:InputDecoration(
+        filled:true,
+        fillColor:_listFormState.selectedListColor.color,
+        hintText:'Nome da Lista',
+        hintStyle:TextStyle(
+          color:Colors.black,
+        ),
+        enabledBorder:OutlineInputBorder(
+          borderSide:BorderSide(width:0,color:_listFormState.selectedListColor.color),
+          borderRadius:BorderRadius.circular(8),
+        ),
+      ),
+    );
+  }
+
+  // Select New List Color from Range
+  Row _buildColorInput(){
+    return Row(
+      mainAxisSize:MainAxisSize.max,
+      spacing:8,
+      children:ListColor.values.map(
+        (listColor)=>Expanded(
+          flex:1,
+          child: GestureDetector(
+            onTap:()=>setState(()=>_listFormState.selectedListColor=listColor),
+            child:AspectRatio(
+              aspectRatio:1,
+              child: Container(
+                decoration:BoxDecoration(
+                  color:listColor.color,
+                  borderRadius:BorderRadius.circular(4),
+                  border:BoxBorder.all(
+                    color:listColor==_listFormState.selectedListColor
+                      ?darken(listColor.color,0.65)
+                      :Colors.transparent,
+                    width:2.5,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ).toList(),
+    );
+  }
 
   @override
   Widget build(BuildContext context){
     return Padding(
       padding:const EdgeInsets.all(48),
       child: Column(
+        crossAxisAlignment:CrossAxisAlignment.stretch,
         children:[
-          Text(
-            'Nova Lista',
-            style:Theme.of(context).textTheme.headlineLarge,
-          ),
+          _buildTitle(context),
           SizedBox(height:32),
-          Container(
-            width:120,
-            height:120,
-            decoration:BoxDecoration(
-              color:selectedListColor.color,
-              shape:BoxShape.circle,
-            ),
-            child:Icon(Icons.square),
-          ),
-          SizedBox(height:32),
-          // Text Field to Enter new List Title
-          TextField(
-            textAlign:TextAlign.center,
-            style:Theme.of(context).textTheme.headlineMedium!.copyWith(
-              color:Colors.black,
-              fontWeight:FontWeight.w700
-            ),
-            decoration:InputDecoration(
-              filled:true,
-              fillColor:selectedListColor.color,
-              hintText:'Nome da Lista',
-              hintStyle:TextStyle(
-                color:Colors.black,
-              ),
-              enabledBorder:OutlineInputBorder(
-                borderSide:BorderSide(width:0,color:selectedListColor.color),
-                borderRadius:BorderRadius.circular(8),
-              ),
-            ),
-          ),
-          SizedBox(height:24),
-          // Select New List Color from Range
-          Row(
-            mainAxisSize:MainAxisSize.max,
-            spacing:8,
-            children:ListColor.values.map(
-              (listColor)=>Expanded(
-                flex:1,
-                child: GestureDetector(
-                  onTap:(){
-                    setState(()=>selectedListColor=listColor);
-                  },
-                  child:AspectRatio(
-                    aspectRatio:1,
-                    child: Container(
-                      decoration:BoxDecoration(
-                        color:listColor.color,
-                        borderRadius:BorderRadius.circular(4),
-                        border:BoxBorder.all(
-                          color:listColor==selectedListColor
-                            ?darken(listColor.color,0.65)
-                            :Colors.transparent,
-                          width:2.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ).toList(),
-          ),
-          SizedBox(height:24),
-          // Choose New List Type
-          Row(
-            mainAxisAlignment:MainAxisAlignment.spaceBetween,
-            children:[
-              // Input to Choose Normal Type
-              Row(
-                spacing:8,
-                children:[
-                  TheCheckbox(
-                    toggleState:(){
-                      setState((){
-                        selectedListType=ListType.normal;
-                      });
-                    },
-                    isChecked:selectedListType==ListType.normal,
-                  ),
-                  Text('Padrão',style:Theme.of(context).textTheme.headlineMedium),
-                ],
-              ),
-              // Input to Choose Periodic Type
-              Row(
-                spacing:8,
-                children: [
-                  TheCheckbox(
-                    toggleState:(){
-                      setState((){
-                        selectedListType=ListType.periodic;
-                      });
-                    },
-                    isChecked:selectedListType==ListType.periodic,
-                  ),
-                  Text('Periódico',style:Theme.of(context).textTheme.headlineMedium),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height:28),
-          // If Current Type is Normal
-          if(selectedListType==ListType.normal)
-            Column(
+          Form(
+            key:_formKey,
+            child:Column(
               children:[
-                Text(
-                  'Data para conclusão (opcional)',
-                  style:Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(height:10),
-                Row(
-                  spacing:16,
-                  children:[
-                    Expanded(
-                      child:Column(
-                        children:[
-                          Text('dia',style:TextStyle(
-                            fontSize:16,
-                            color:Color(0XFFD9D9D9),
-                          ),),
-                          TextField(
-                            keyboardType:TextInputType.number,
-                            textAlign:TextAlign.center,
-                            style:Theme.of(context).textTheme.headlineMedium,
-                            decoration:InputDecoration(
-                              hintText:'dd',
-                              hintStyle:TextStyle(color:Colors.black),
-                              enabledBorder:OutlineInputBorder(
-                                borderSide:BorderSide(width:2,color:Color(0xFFD9D9D9)),
-                                borderRadius:BorderRadius.circular(8),
-                              ),
-                              focusedBorder:OutlineInputBorder(
-                                borderSide:BorderSide(width:2,color:Color(0XFF000000)),
-                                borderRadius:BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child:Column(
-                        children:[
-                          Text('mês',style:TextStyle(
-                            fontSize:16,
-                            color:Color(0XFFD9D9D9),
-                          ),),
-                          TextField(
-                            keyboardType:TextInputType.number,
-                            textAlign:TextAlign.center,
-                            style:Theme.of(context).textTheme.headlineMedium,
-                            decoration:InputDecoration(
-                              hintText:'mm',
-                              hintStyle:TextStyle(),
-                              enabledBorder:OutlineInputBorder(
-                                borderSide:BorderSide(width:1,color:Color(0xFFD9D9D9)),
-                                borderRadius:BorderRadius.circular(8),
-                              ),
-                              focusedBorder:OutlineInputBorder(
-                                borderSide:BorderSide(width:2,color:Color(0XFF000000)),
-                                borderRadius:BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ]
-                      ),
-                    ),
-                    Expanded(
-                      child:Column(
-                        children:[
-                          Text('ano',style:TextStyle(
-                            fontSize:16,
-                            color:Color(0XFFD9D9D9),
-                          ),),
-                          TextField(
-                            keyboardType:TextInputType.number,
-                            textAlign:TextAlign.center,
-                            style:Theme.of(context).textTheme.headlineMedium,
-                            decoration:InputDecoration(
-                              hintText:'aaaa',
-                              hintStyle:TextStyle(),
-                              enabledBorder:OutlineInputBorder(
-                                borderSide:BorderSide(width:1,color:Color(0xFFD9D9D9)),
-                                borderRadius:BorderRadius.circular(8),
-                              ),
-                              focusedBorder:OutlineInputBorder(
-                                borderSide:BorderSide(width:2,color:Color(0XFF000000)),
-                                borderRadius:BorderRadius.circular(8),
-                              ),
-                            ),
-                          ),
-                        ]
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            )
-          // If Current Type is Periodic
-          else
-            Column(
-              children:[
-                Row(
-                  children:[
-                    Text('Repetir a cada'),
-                    // TextField(),
-                    // TextField(),
-                  ],
-                ),
-                Row(
-                  children:[
-                    TheCheckbox(
-                      isChecked:false,
-                      toggleState:(){},
-                    ),
-                    Text('Modo Repetição Automática'),
-                  ],
+                _buildIconInput(),
+                SizedBox(height:32),
+                _buildNameInput(context),
+                SizedBox(height:24),
+                _buildColorInput(),
+                FilledButton(
+                  onPressed:_addList,
+                  child:Text('Adicionar'),
                 ),
               ],
             ),
+          ),
         ],
       ),
     );

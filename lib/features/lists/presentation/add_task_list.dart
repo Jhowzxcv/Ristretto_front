@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:ristretto/core/models/ilist_skeleton.dart';
-
 class ListSkeleton extends StatelessWidget{
-  final IListSkeleton listSimple;
+  final String name;
+  final String color;
 
-  const ListSkeleton(
-    this.listSimple,
-    {
-      super.key,
-    }
-  );
+  const ListSkeleton({super.key,required this.name,required this.color});
+
+  Color fromHex(String hexString) {
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('FF'); // default alpha
+    buffer.write(hexString.replaceFirst('#', ''));
+    return Color(int.parse(buffer.toString(), radix: 16));
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class ListSkeleton extends StatelessWidget{
         padding:const EdgeInsets.all(16),
         decoration:BoxDecoration(
           borderRadius:BorderRadius.circular(8),
-          color:listSimple.color,
+          color:fromHex(color),
         ),
         child: Column(
           mainAxisSize:MainAxisSize.max,
@@ -28,13 +30,14 @@ class ListSkeleton extends StatelessWidget{
             Expanded(
               child: FittedBox(
                 fit:BoxFit.contain,
-                child: Icon(listSimple.icon,size:50),
+                // child: Icon(listSimple.icon,size:50),
+                child:Icon(Icons.school),
               ),
             ),
             Align(
               alignment:Alignment.center,
               child: Text(
-                listSimple.title,
+                name,
                 style:Theme.of(context).textTheme.headlineMedium,
               ),
             ),

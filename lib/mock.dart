@@ -86,12 +86,3 @@ List<Gambiarra> getTodayTasks(){
 }
 
 final List<Gambiarra> todayTasks=getTodayTasks();
-
-final List<IListSkeleton> listsSkeleton=
-  theLists
-    .map((theList)=>IListSkeleton(
-      title:theList.title,
-      color:theList.color,
-      icon:theList.icon,
-    ))
-    .toList();
