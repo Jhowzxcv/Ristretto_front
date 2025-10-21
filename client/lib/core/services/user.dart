@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:ristretto/core/models/iuser.dart';
@@ -16,12 +17,14 @@ class UserService{
     required String email,
     required String password
   })async{
+    debugPrint('email: $email');
+    debugPrint('password: $password');
     // Delay on Purpose (delete after)
     await Future.delayed(Duration(seconds:3));
 
     try{
       final response=await ApiClient.instance.dio.post(
-        '/auth/login',
+        '/login',
         data:{
           'email':email,
           'password':password,
@@ -29,7 +32,7 @@ class UserService{
       );
 
       // Obtaining and Storing Access Token locally
-      final accessToken=response.data['accessToken'];
+      final accessToken=response.data['token'];
       await _storage.write(
         key:'accessToken',
         value:accessToken,
@@ -50,7 +53,7 @@ class UserService{
 
     try{
       await ApiClient.instance.dio.post(
-        '/users',
+        '/user',
         data:{
           'name':name,
           'email':email,

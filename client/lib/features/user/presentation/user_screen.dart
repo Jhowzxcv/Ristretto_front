@@ -27,16 +27,17 @@ class _UserScreenState extends State<UserScreen>{
 
     // Decode Access Token
     final decoded=JwtDecoder.decode(accessToken);
-    final userId=decoded['userId'];
-    final IUser temp=await UserService.instance.getUserById(userId.toString());
+    debugPrint(decoded.toString());
+    // final userId=decoded['userId'];
+    // final IUser temp=await UserService.instance.getUserById(userId.toString());
 
-    // Delay on Purpose (delete after)
-    await Future.delayed(Duration(seconds:3));
+    // // Delay on Purpose (delete after)
+    // await Future.delayed(Duration(seconds:3));
 
-    setState((){
-      _user=temp;
-      _isLoading=false;
-    });
+    // setState((){
+    //   _user=temp;
+    //   _isLoading=false;
+    // });
   }
 
   @override

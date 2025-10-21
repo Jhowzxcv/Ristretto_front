@@ -36,13 +36,16 @@ class _LoginScreenState extends State<LoginScreen>{
         password:_userFormState.password,
       );
 
+      debugPrint('SUCCESSS');
+
       // Login Success
       context.go('/user');
-      // setState((){
-      //   _loginError=false;
-      //   _isLoading=false;
-      // });
+      setState((){
+        _loginError=false;
+        _isLoading=false;
+      });
     }catch(err){
+      debugPrint('FAILURE: ${err}');
       // Login Failed
       setState((){
         _loginError=true;
