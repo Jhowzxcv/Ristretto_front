@@ -29,11 +29,11 @@ class CategoryService{
       return;
     }
 
-    debugPrint('CREATE CATEGORY.DART: '+accessToken);
+    debugPrint('CREATE CATEGORY.DART: $accessToken');
 
     try{
       await ApiClient.instance.dio.post(
-        '/categories',
+        '/category',
         data:{
           'name':name,
           'color':rgbHex,
@@ -45,7 +45,7 @@ class CategoryService{
         ),
       );
     }catch(error){
-      debugPrint('could not create a new list: '+error.toString());
+      debugPrint('could not create a new list: $error');
     }
   }
 
@@ -59,11 +59,11 @@ class CategoryService{
       throw Exception('NO TOKEN');
     }
 
-    debugPrint('GET_CATEGORIES(): '+accessToken);
+    debugPrint('GET_CATEGORIES(): $accessToken');
 
     try{
       final result=await ApiClient.instance.dio.get(
-        '/categories',
+        '/category',
         options:Options(
           headers:{
             'authorization':'Bearer $accessToken',
@@ -74,7 +74,7 @@ class CategoryService{
       List<Map<String,dynamic>> todos=List<Map<String,dynamic>>.from(result.data);
       return todos.map((todo)=>ICategory.fromMap(todo)).toList();
     }catch(error){
-      debugPrint('could not get the lists :( '+error.toString());
+      debugPrint('could not get the lists :( $error');
       rethrow;
     }
   }

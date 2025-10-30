@@ -21,9 +21,9 @@ class _ListsScreenState extends State<ListsScreen>{
 
     List<ICategory> result=await CategoryService.instance.getCategories();
 
-    result.forEach((category){
+    for (var category in result) {
       debugPrint(category.name);
-    });
+    }
 
     setState((){
       categories=result;

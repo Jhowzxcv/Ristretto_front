@@ -36,10 +36,10 @@ enum ListColor{
   const ListColor(this.color);
 }
 
-Color darken(Color originalColor,double darkness_level){
+Color darken(Color originalColor,double darknessLevel){
   HSLColor newColor=HSLColor
     .fromColor(originalColor)
-    .withLightness(darkness_level);
+    .withLightness(darknessLevel);
 
   return newColor.toColor();
 }

@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen>{
         _isLoading=false;
       });
     }catch(err){
-      debugPrint('FAILURE: ${err}');
+      debugPrint('FAILURE: $err');
       // Login Failed
       setState((){
         _loginError=true;

@@ -16,7 +16,7 @@ class IListFormState{
 }
 
 class _AddListScreenState extends State<AddListScreen>{
-  IListFormState _listFormState=IListFormState();
+  final IListFormState _listFormState=IListFormState();
   final GlobalKey<FormState> _formKey=GlobalKey<FormState>();
 
   Future<void> _addList()async{

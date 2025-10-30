@@ -25,7 +25,7 @@ final GoRouter router=GoRouter(
         StatefulShellBranch(
           routes:[
             GoRoute(
-              path:'/tasks',
+              path:'/task',
               builder:(context,state)=>TasksScreen(),
             ),
           ],
@@ -33,7 +33,7 @@ final GoRouter router=GoRouter(
         StatefulShellBranch(
           routes:[
             GoRoute(
-              path:'/calendar',
+              path:'/calendar_event',
               builder:(context,state)=>CalendarScreen(),
             )
           ],
